@@ -8,27 +8,7 @@
 
 using namespace std;
 
-
-//Alpha test file, testing out how execvp works
-int main(int argc, char** argv){
-    
-    
-    string ls = "ls";
-    string dash_l = "-a";
-    vector <string> a;
-    a.push_back("ls");
-    a.push_back("-a");
-    a.push_back("nullptr");
-    //a.push_back("echo hello world");
-    
-    a.push_back("-e");
-    a.push_back("echo");
-    a.push_back("hello world");
-    a.push_back("nullptr");
-    
-    //a.push_back("");
-    //a.push_back("/n");
-    //a.push_back("echo hello world");
+void execute(vector<string> a){
     char* args[a.size()];
     
     
@@ -40,9 +20,12 @@ int main(int argc, char** argv){
         }
         else{
             args[i] = (char*) a.at(i).c_str();
+            //cout << a.at(i) <<endl;
         }
     }
     args[a.size()] = nullptr;
+    
+    
     
     
     if(pid < 0){
@@ -51,29 +34,46 @@ int main(int argc, char** argv){
     }
     else if(pid == 0){
         cout <<"pid == 0" <<endl;
-        if(execvp(args[0], args) == -1){
+        if(execvp(args[0], args) == -1){                //prints out commands, and does not end program
             perror("exec");
         }
+        cout <<"end2\n";
     }
     else{
         cout <<"child\n" <<endl;
         while(wait(&status) != pid){
             cout <<"child\n" <<endl;
         }
+        
+        cout <<"end\n";
     }
-    /*
-    args[0] = (char*) ls.c_str();
-    args[1] = nullptr; //(char*) dash_l.c_str();
-    args[2] = nullptr;
-    */
+    return;
+}
+
+//Alpha test file, testing out how execvp works
+int main(int argc, char** argv){
     
     
+    string ls = "ls";
+    string dash_l = "-a";
+    vector <string> a;
+    //vector <string> b;
+    a.push_back("ls");
+    a.push_back("-a");
+    //a.push_back("nullptr");
+
+    execute(a);
     
+    cout <<"program continued\n";
+
+    a.clear();
+    a.push_back("echo");
+    a.push_back("hello world");
     
-    
-    
-    
+    execute(a);
     
     
     return 0;
 }
+
+
