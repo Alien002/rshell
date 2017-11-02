@@ -6,14 +6,14 @@
 #include <sys/types.h>
 #include <vector>
 #include <string>
-#include <boost/algorithm/string/split.hpp>
+#include <boost/algorithm/string.hpp>
 #include <boost/algorithm/string/classification.hpp>
 
 
 using namespace std;
 
-void execute(vector<string> a){
-    char* args[a.size()];
+bool execute(vector<string> a){                     //v.at(1) = echo ; v.at(2) = hello; v.at(3) = world;    another execute function needed for || operator
+    char* args[a.size()];                           //whitespace for echo cmd doesn't matter
     
     
     pid_t pid = fork();
@@ -30,40 +30,42 @@ void execute(vector<string> a){
     args[a.size()] = nullptr;
     
     
-    
+
     
     if(pid < 0){
         cout <<"***ERROR: forking child process failed\n";
         exit(1);
     }
     else if(pid == 0){
-        cout <<"pid == 0" <<endl;
+        //cout <<"pid == 0" <<endl;
         if(execvp(args[0], args) == -1){                 //prints out commands, and does not end program
-            perror("exec");
+            perror("execvp");
+            return false;                               //error message if command isn't valid
         }
-        cout <<"end2\n";
+        //cout <<"end2\n";
     }
     else{
-        cout <<"child\n" <<endl;
+        //cout <<"child\n" <<endl;
         while(wait(&status) != pid){
-            cout <<"child\n" <<endl;
+            //cout <<"child\n" <<endl;
         }
         
-        cout <<"end\n";
+        //cout <<"end\n";
     }
-    return;
+    return true;
 }
 
 //Alpha test file, testing out how execvp works
+/*
 int main(int argc, char** argv){
     
-    
+    //ls -a; echo hello world;
     string ls = "ls";
-    string dash_l = "-a";
+    string b = "-a";
     vector <string> a;
     //vector <string> b;
-    a.push_back("ls");
-    a.push_back("-a");
+    a.push_back(ls);
+    a.push_back(b);
     //a.push_back("nullptr");
 
     execute(a);
@@ -79,5 +81,5 @@ int main(int argc, char** argv){
     
     return 0;
 }
-
+*/
 
