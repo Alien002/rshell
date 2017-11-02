@@ -5,6 +5,10 @@
 #include <sys/wait.h>
 #include <sys/types.h>
 #include <vector>
+#include <string>
+#include <boost/algorithm/string/split.hpp>
+#include <boost/algorithm/string/classification.hpp>
+
 
 using namespace std;
 
@@ -34,7 +38,7 @@ void execute(vector<string> a){
     }
     else if(pid == 0){
         cout <<"pid == 0" <<endl;
-        if(execvp(args[0], args) == -1){                //prints out commands, and does not end program
+        if(execvp(args[0], args) == -1){                 //prints out commands, and does not end program
             perror("exec");
         }
         cout <<"end2\n";
