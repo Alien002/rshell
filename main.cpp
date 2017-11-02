@@ -63,7 +63,13 @@ int main(int argc, char** argv){
             exe.push_back(cmds.front());
             cmds.pop();
             
-            if(cmds.front() == ""){
+            if(cmds.front() == "" || cmds.front() == "||" || cmds.front() == "&&"){
+                if(cmds.front() == "||"){
+                    //set flag
+                }
+                else if(cmds.front() == "&&"){
+                    //set flag
+                }
                 cmds.pop();
                 check = execute(exe); //daniel added this line and replaced !execute(exe) with !check (for efficiency...?)
                 if (!check){
@@ -74,29 +80,27 @@ int main(int argc, char** argv){
                 queueSize = cmds.size();
             }
             //daniel did || case NEED TO TEST
-/*            else if(cmds.front() == "||"){
+            else if(cmds.front() == "||"){
                 if (check) { //PREVIOUS SUCCEEDED
-                    cmds.pop()
+                    cmds.pop();
                     while (!cmds.empty() || (cmds.front() != "" || cmds.front() != "||" || cmds.front() != "&&") ){ //as long as cmds not empty we search for next command after the one that we skip
                         cmds.pop();
                     }
                 }
                 else { //PREVIOUS FAILED
                     //copy paste from ; case
- cmds.pop();
- check = execute(exe); //daniel added this line and replaced !execute(exe) with !check (for efficiency...?)
- if (!check){
- cout <<"command does not work!!\n";
- }
- exe.clear();
- i = 0;
- queueSize = cmds.size();
+                
+                    cmds.pop();
+                    check = execute(exe); //daniel added this line and replaced !execute(exe) with !check (for efficiency...?)
+                    if (!check){
+                        cout <<"command does not work!!\n";
+                    }
+                    exe.clear();
+                    i = 0;
+                    queueSize = cmds.size();
                 }
-  */
-            
-            
-        }
-/*daniel added this
+            }
+/*
             if(cmds.front() == "||"){
                 //check prev command succeeds or fails
                 if succeeds {
@@ -115,7 +119,7 @@ int main(int argc, char** argv){
             //cout <<"exe.at(i): " <<exe.at(i) <<endl;
         
         //execute(cmds);
-        
-    }
+        }
+        }
     return 0;
 }
