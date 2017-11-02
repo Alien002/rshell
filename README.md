@@ -1,4 +1,4 @@
-CS100 - Assignment 1
+CS100 - Assignment
 Team: Alic Lien, Daniel Li
-Project: Proposal for Assignment 2 C++ Program
+Project: rShell C++ Program
 
