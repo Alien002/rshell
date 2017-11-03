@@ -37,27 +37,27 @@ echo "Test 5: echo A || echo B; echo C"
 echo A || echo B; echo C
 
 echo "Test 6: echo A; echo B && echo C"
-echo echo A; echo B && echo C
+echo A; echo B && echo C
 
 echo "Test 7: echo A && echo B; echo C"
-echo A && echoo B; echo C
+echo A && echo B; echo C
 
-echo "Test 7: echo A; echo B || echo C"
+echo "Test 8: echo A; echo B || echo C"
 echo A; echo B || echo C
 
-echo "Test 7: echo A || echo B && echo C"
+echo "Test 9: echo A || echo B && echo C"
 echo A || echo B && echo C
 
-echo "Test 8: echo A && echo B || echo C"
-echo echo A && echo B || echo C
+echo "Test 10: echo A && echo B || echo C"
+echo A && echo B || echo C
 
-echo "Test 9: la || echo A || echo B || echo C" //la is command fail
+echo "Test 11: la || echo A || echo B || echo C" //la is command fail
 la || echo A || echo B || echo C
 
-echo "Test 10: la && echo A || echo B && echo C; echo D"
+echo "Test 12: la && echo A || echo B && echo C; echo D"
 la && echo A || echo B && echo C; echo D
 
-echo "Test 11: just accept that my code works man"
+echo "Test 13: just accept that my code works man"
 
 
 
