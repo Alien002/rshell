@@ -1,9 +1,9 @@
 //
 //  main.cpp
-//  rshell
+//  rshell - assignment 2
 //
 //  Created by Alic Lien & Daniel Li on 10/28/17.
-//
+//  compiles via g++ main.cpp Command.cpp
 //
 
 #include <iostream>
@@ -17,109 +17,165 @@
 #include <queue>
 #include <boost/algorithm/string.hpp>
 #include <boost/algorithm/string/classification.hpp>
-#include "test.cpp"
-
+//#include "test.cpp"
+//#include "Command.cpp"
+#include "Command.hpp"
+#include "Execute.hpp"
 
 
 // ls -a || touch main.cpp || echo rip
 using namespace std;
 
+//takes user input (getline), builds commands.
 void inputCommands(queue<string>& cmds){
     vector<string> v;
     cout <<"rshell$ ";
     string input;
     getline(cin, input);
+    /*
     if(input == "-q"){                                          //occasionally requires -q to be typed twice for program to exit.
         exit(0);
     }
+    */
     boost::split(v,input,boost::is_any_of(" ,; "));          //with current parse, a whitespace/empty v.at(i) is created
                                                                 //git commit -m needs underscores for  ""
     for (int i = 0; i < v.size(); ++i){
-        //cout <<"inputcommands v.at(i): " <<v.at(i) <<endl;
+
         cmds.push(v.at(i));
-        //cout <<"cmds.back(): " <<cmds.back() <<endl;
+
     }
-    cmds.push("");
+    cmds.push("-0");        //last cmd
     return;
 }
 
 
 
+void buildExecutable(queue<string>& input, vector<Command> &v){  //builds executable into a package
+    
+    queue<string> temp;
+    int sz = input.size();
+    int i = 0;
+    
+    
+    while(i != sz){
+        //cout <<"buildExe input: " <<input.front() <<endl;               //if last input is ";" something fucks up
+        temp.push(input.front());
+        input.pop();
+        
+        if(input.front() == string()){
+            input.pop();
+            v.push_back(Command(temp, "; "));
+            if(input.empty()){
+                //cout <<"input .empty\n";
+                return;
+            }
+            ++i;
+        }
+        else if(input.front() == "&&"){
+            input.pop();
+            v.push_back(Command(temp, "&&"));
+            ++i;
+        }
+        else if(input.front() == "||"){
+            input.pop();
+            v.push_back(Command(temp, "||"));
+            ++i;
+        }
+        else if(input.front() == "-0"){
+            //cout <<"else if\n";
+            input.pop();
+            v.push_back(Command(temp, ""));
+            
+            return;
+        }
+        //assuming new Command(temp, --) swaps filled temp queue with empty protected queue
+    }
+    
+}
+
 
 int main(int argc, char** argv){
     while (1){
         //string input;
-        queue<string> cmds;
-        inputCommands(cmds);
         
-        vector<string> exe;
+        vector<Command> executables;
+        queue<string> input;
         
-        int queueSize = cmds.size();                    //pass cmds and exe into separate function
+        inputCommands(input);
         
-        //daniel added this
-        bool check;
+        buildExecutable(input, executables);
+        vector<string> lhs;
+        vector<string> rhs;
         
-        for(int i = 0; i < queueSize; ++i){         // works for "; " operator so far
-            exe.push_back(cmds.front());
-            cmds.pop();
-            
-            if(cmds.front() == "" || cmds.front() == "||" || cmds.front() == "&&"){
-                if(cmds.front() == "||"){
-                    //set flag
-                }
-                else if(cmds.front() == "&&"){
-                    //set flag
-                }
-                cmds.pop();
-                check = execute(exe); //daniel added this line and replaced !execute(exe) with !check (for efficiency...?)
-                if (!check){
-                    cout <<"command does not work!!\n";
-                }
-                exe.clear();
-                i = 0;
-                queueSize = cmds.size();
+        bool repeat = true;
+        
+        string flg1 = executables.at(0).getFlag();
+        string flg2 = executables.at(1).getFlag();
+        for(unsigned i = 0; i < executables.size(); ++i){
+
+            if(repeat && i != 0){
+                flg1 = flg2;
+                lhs = rhs;
+                rhs.clear();
             }
-            //daniel did || case NEED TO TEST
-            else if(cmds.front() == "||"){
-                if (check) { //PREVIOUS SUCCEEDED
-                    cmds.pop();
-                    while (!cmds.empty() || (cmds.front() != "" || cmds.front() != "||" || cmds.front() != "&&") ){ //as long as cmds not empty we search for next command after the one that we skip
-                        cmds.pop();
+            else if(!repeat){
+                flg1 = flg2;
+            }
+            else{
+                lhs.clear();
+                rhs.clear();
+                
+            }
+            buildV(lhs, executables.at(i));
+
+            if(flg1 == "&&"){
+
+                if(repeat){
+                    if(execute(lhs)){
+                        
+                    }
+                    else{
+                        repeat = false;
+                        
                     }
                 }
-                else { //PREVIOUS FAILED
-                    //copy paste from ; case
-                
-                    cmds.pop();
-                    check = execute(exe); //daniel added this line and replaced !execute(exe) with !check (for efficiency...?)
-                    if (!check){
-                        cout <<"command does not work!!\n";
+                else{
+                    ++i;            //skips rhs if fail
+                    
+                }
+                //++i;
+            }
+            else if(flg1 == "||"){
+                if(repeat){
+                    if(!execute(lhs)){
+
+                        
                     }
-                    exe.clear();
-                    i = 0;
-                    queueSize = cmds.size();
+                    else{
+                        repeat = false;
+                        
+                    }
                 }
-            }
-/*
-            if(cmds.front() == "||"){
-                //check prev command succeeds or fails
-                if succeeds {
-                    //copy code from ;
+                else{
+                    repeat = true;
+                    
                 }
-                else fails {
-                    //search function for next ( && /|| /"" )
-                    //maybe popfront until it shows up ? idk
+
                 
+            }
+            else if(flg1 == "; "){
+                repeat = true;
+                execute(lhs);
+            }
+            else{
+                if(repeat){
+                    execute(lhs);
                 }
             }
- */
             
-            
-            
-            //cout <<"exe.at(i): " <<exe.at(i) <<endl;
+
+        }
         
-        //execute(cmds);
-        }
-        }
+    }
     return 0;
 }
