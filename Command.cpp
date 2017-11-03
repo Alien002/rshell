@@ -19,12 +19,6 @@ Command::Command(queue<string> &a, string flag){
     
     
     swap(cmds, a);              //clears queue/swaps contents
-    /*
-    while(!a.empty()){
-        cmds.push(a.front());   //deep copy of passed in queue into member queue
-        a.pop();
-    }
-    */
 }
 
 
@@ -51,11 +45,4 @@ bool Command::qEmpty(){
 int Command::qSize(){
     return cmds.size();
 }
-
-
-/*
-void Command::displayCmds(){
-    
-}
-*/
 

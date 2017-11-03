@@ -13,6 +13,7 @@
 #include "Command.hpp"
 
 void buildV(vector<string>& v, Command& a){
+    
     while(!a.qEmpty()){
         v.push_back(a.qFront());
         //cout <<v.back() <<endl;
