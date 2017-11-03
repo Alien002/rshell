@@ -20,10 +20,13 @@ void buildV(vector<string>& v, Command& a){
     }
 }
 
-
+const int vecSize(vector<string>& a){
+    return a.size();
+}
 
 bool execute(vector<string>& a){                     //v.at(1) = echo ; v.at(2) = hello; v.at(3) = world;    another execute function needed for || operator
-    char* args[a.size()];                           //whitespace for echo cmd doesn't matter
+    //const int vSize = vecSize(a);
+    char* args[10000];                           //whitespace for echo cmd doesn't matter
     
     
     pid_t pid = fork();
