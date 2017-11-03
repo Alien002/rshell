@@ -17,7 +17,6 @@ Command::Command() {}
 Command::Command(queue<string> &a, string flag){
     this -> flag = flag;
     
-    
     swap(cmds, a);              //clears queue/swaps contents
 }
 

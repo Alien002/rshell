@@ -41,9 +41,13 @@ void inputCommands(queue<string>& cmds){
     boost::split(v,input,boost::is_any_of(" ,; "));          //with current parse, a whitespace/empty v.at(i) is created
                                                                 //git commit -m needs underscores for  ""
     for (int i = 0; i < v.size(); ++i){
-
-        cmds.push(v.at(i));
-        
+        //cout <<v.at(i) <<endl;
+        if(v.at(i) == "#" || v.at(i).at(0) == '#'){
+            i = v.size();
+        }
+        else{
+            cmds.push(v.at(i));
+        }
     }
     cmds.push("-0");        //last cmd
     return;

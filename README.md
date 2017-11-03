@@ -17,6 +17,7 @@ The "-q" command is used to exit the program.
 1. for cases where F && F; T, error message will be printed out twice for the second F.
 2. there is a bug with git commit -m, the error message does not work with white space inside the 
     quotations. Will only work if "message_is_typed_like_this".
+3. if #comment is entered by itself, program seg faults.
 
-Last Debug: 11/3/2017 - 12:40 AM
+Last Debug: 11/3/2017 - 1:31 AM
 No furthur bugs detected at the moment.
