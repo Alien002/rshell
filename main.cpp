@@ -28,6 +28,7 @@ using namespace std;
 
 //takes user input (getline), builds commands.
 void inputCommands(queue<string>& cmds){
+    //cout <<"input cmds\n";
     vector<string> v;
     cout <<"rshell$ ";
     string input;
@@ -42,7 +43,7 @@ void inputCommands(queue<string>& cmds){
     for (int i = 0; i < v.size(); ++i){
 
         cmds.push(v.at(i));
-
+        
     }
     cmds.push("-0");        //last cmd
     return;
@@ -51,16 +52,22 @@ void inputCommands(queue<string>& cmds){
 
 
 void buildExecutable(queue<string>& input, vector<Command> &v){  //builds executable into a package
-    
+    //cout <<"build executable\n";
     queue<string> temp;
     int sz = input.size();
     int i = 0;
     
     
     while(i != sz){
-        //cout <<"buildExe input: " <<input.front() <<endl;               //if last input is ";" something fucks up
+        //cout <<"buildExe input: " <<input.front() <<" input size: " <<input.size() <<endl;               //if last input is ";" something messes up
         temp.push(input.front());
         input.pop();
+        /*
+        if(input.empty()){
+            cout <<"input empty\n";
+            return;
+        }
+        */
         
         if(input.front() == string()){
             input.pop();
@@ -109,10 +116,16 @@ int main(int argc, char** argv){
         
         bool repeat = true;
         
-        string flg1 = executables.at(0).getFlag();
-        string flg2 = executables.at(1).getFlag();
+        string flg1, flg2;
+        if(executables.size() > 1){
+            flg1 = executables.at(0).getFlag();
+            flg2 = executables.at(1).getFlag();
+        }
+        else{
+            execute(lhs);
+            repeat = false;
+        }
         for(unsigned i = 0; i < executables.size(); ++i){
-
             if(repeat && i != 0){
                 flg1 = flg2;
                 lhs = rhs;
@@ -127,6 +140,10 @@ int main(int argc, char** argv){
                 
             }
             buildV(lhs, executables.at(i));
+            
+            if(executables.size() == 1){
+                execute(lhs);
+            }
 
             if(flg1 == "&&"){
 
@@ -143,7 +160,6 @@ int main(int argc, char** argv){
                     ++i;            //skips rhs if fail
                     
                 }
-                //++i;
             }
             else if(flg1 == "||"){
                 if(repeat){
@@ -172,7 +188,6 @@ int main(int argc, char** argv){
                     execute(lhs);
                 }
             }
-            
 
         }
         
