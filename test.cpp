@@ -12,7 +12,7 @@
 
 using namespace std;
 
-bool execute(vector<string> a){                     //v.at(1) = echo ; v.at(2) = hello; v.at(3) = world;    another execute function needed for || operator
+bool execute(vector<string>& a){                     //v.at(1) = echo ; v.at(2) = hello; v.at(3) = world;    another execute function needed for || operator
     char* args[a.size()];                           //whitespace for echo cmd doesn't matter
     
     
