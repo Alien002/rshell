@@ -20,9 +20,8 @@ void buildV(vector<string>& v, Command& a){
     }
 }
 
-bool execute(vector<string>& a){                     //v.at(1) = echo ; v.at(2) = hello; v.at(3) = world;    another execute function needed for || operator
-    
-    char* args[10000];                           //whitespace for echo cmd doesn't matter
+bool execute(vector<string>& a){
+    char* args[100];                           //whitespace for echo cmd doesn't matter
     
     
     pid_t pid = fork();
@@ -44,20 +43,15 @@ bool execute(vector<string>& a){                     //v.at(1) = echo ; v.at(2) 
         exit(1);
     }
     else if(pid == 0){
-        //cout <<"pid == 0" <<endl;
         if(execvp(args[0], args) == -1){                 //prints out commands, and does not end program
             perror("execvp");
             return false;                               //error message if command isn't valid
         }
-        //cout <<"end2\n";
     }
     else{
-        //cout <<"child\n" <<endl;
         while(wait(&status) != pid){
-            //cout <<"child\n" <<endl;
+
         }
-        
-        //cout <<"end\n";
     }
     return true;
 }

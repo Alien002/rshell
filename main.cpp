@@ -3,7 +3,8 @@
 //  rshell - assignment 2
 //
 //  Created by Alic Lien & Daniel Li on 10/28/17.
-//  compiles via g++ main.cpp Command.cpp
+//  Updated 11/3/2017 - Hotfix
+//  Compiles via g++ main.cpp Command.cpp
 //
 
 #include <iostream>
@@ -17,8 +18,6 @@
 #include <queue>
 #include <boost/algorithm/string.hpp>
 #include <boost/algorithm/string/classification.hpp>
-//#include "test.cpp"
-//#include "Command.cpp"
 #include "Command.hpp"
 #include "Execute.hpp"
 
@@ -26,23 +25,29 @@
 // ls -a || touch main.cpp || echo rip
 using namespace std;
 
+void intro(){
+    cout <<"----------------rShell cmds----------------\n"
+         <<"Connectors: \n"
+         <<"\"||\" - will run second cmd if first fails.\n"
+         <<"\"&&\" - will run second cmd if first runs.\n"
+         <<"\"; \" - will always run next command.\n"
+         <<"type -q as a shell command to quit rShell.\n"
+         <<"-------------------------------------------\n";
+    return;
+}
+
 //takes user input (getline), builds commands.
 void inputCommands(queue<string>& cmds){
-    //cout <<"input cmds\n";
     vector<string> v;
     cout <<"rshell$ ";
     string input;
     getline(cin, input);
-    /*
-    if(input == "-q"){                                          //occasionally requires -q to be typed twice for program to exit.
-        exit(0);
-    }
-    */
+
     boost::split(v,input,boost::is_any_of(" ,; "));          //with current parse, a whitespace/empty v.at(i) is created
                                                                 //git commit -m needs underscores for  ""
     for (int i = 0; i < v.size(); ++i){
-        //cout <<v.at(i) <<endl;
-        if(v.at(i) == "#" || v.at(i).at(0) == '#'){
+        
+        if(v.at(i) == "#" || (v.at(i) != string() && v.at(i).at(0) == '#')){
             i = v.size();
         }
         else{
@@ -63,21 +68,14 @@ void buildExecutable(queue<string>& input, vector<Command> &v){  //builds execut
     
     
     while(i != sz){
-        //cout <<"buildExe input: " <<input.front() <<" input size: " <<input.size() <<endl;               //if last input is ";" something messes up
         temp.push(input.front());
         input.pop();
-        /*
-        if(input.empty()){
-            cout <<"input empty\n";
-            return;
-        }
-        */
+
         
         if(input.front() == string()){
             input.pop();
             v.push_back(Command(temp, "; "));
             if(input.empty()){
-                //cout <<"input .empty\n";
                 return;
             }
             ++i;
@@ -93,22 +91,19 @@ void buildExecutable(queue<string>& input, vector<Command> &v){  //builds execut
             ++i;
         }
         else if(input.front() == "-0"){
-            //cout <<"else if\n";
             input.pop();
             v.push_back(Command(temp, ""));
             
             return;
         }
-        //assuming new Command(temp, --) swaps filled temp queue with empty protected queue
     }
-    
 }
 
 
 int main(int argc, char** argv){
+    intro();
+    
     while (1){
-        //string input;
-        
         vector<Command> executables;
         queue<string> input;
         
@@ -184,12 +179,14 @@ int main(int argc, char** argv){
                 
             }
             else if(flg1 == "; "){
-                repeat = true;
-                execute(lhs);
+                if(repeat){
+                    execute(lhs);
+                }
             }
             else{
                 if(repeat){
                     execute(lhs);
+                    repeat = false;
                 }
             }
 
