@@ -21,3 +21,43 @@ The "-q" command is used to exit the program.
 
 Last Debug: 11/3/2017 - 1:31 AM
 No furthur bugs detected at the moment.
+
+
+11/3/2017 - 9:01 PM
+
+1. Manually typing "echo A || echo B || echo C" in rshell will output
+   A
+   C
+   while with the shell script, "echo A || echo B || echo C" will output
+   A
+   (multi_command.sh - Test #3)
+   (manual output is correct, script output is wrong)
+   
+2. Manually typing "echo A || echo B; echo C" in rshell will output
+   A
+   while with the shell script, "echo A || echo B; echo C" will output
+   A
+   C
+   (multi_command.sh - Test #5)
+   (manual output is wrong, script output is correct)
+   
+3. Manually typing "echo A || echo B && echo C" in rshell will output
+   A
+   while with the shell script, "echo A || echo B && echo C" will output
+   A
+   C
+   (multi_command.sh - Test #9)
+   (manual output is correct, script output is wrong)
+   
+4. **Not sure if this counts as a bug**
+   Manually typing "echo "||" && echo "&&" && echo ";"" will output
+   "||"
+   "&&"
+   ";"
+   while with the shell script, "echo "||" && echo "&&" && echo ";"" will output
+   ||
+   &&
+   ;
+   (multi_command.sh - Test #11)
+   
+5. 
