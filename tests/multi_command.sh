@@ -56,7 +56,7 @@ echo "Other cases besides echo:"
 echo "Test 11: echo \"||\" && echo \"&&\" && echo \";\""
 echo "||" && echo "&&" && echo ";"
 
-echo "ls -a && touch file.txt; ls -a; echo find file.txt!; rm file.txt && ls -a"
+echo "Test 12: ls -a && touch file.txt; ls -a; echo find file.txt!; rm file.txt && ls -a"
 ls -a && touch file.txt; ls -a; echo find file.txt!; rm file.txt && ls -a
 
 echo "MAY BE MORE"

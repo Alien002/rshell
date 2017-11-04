@@ -1,6 +1,6 @@
 #!/bin/sh
 
-echo "Tests for rshell:"
+echo "Single Command Tests for rshell:"
 
 echo "Test 1: echo A"
 echo A
