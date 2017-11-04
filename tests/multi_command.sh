@@ -1,6 +1,6 @@
 #!/bin/sh
 
-echo "Tests for rshell:"
+echo "Multi-Command Tests for rshell:"
 
 echo "Simple 2 command tests:"
 
@@ -51,16 +51,12 @@ echo A || echo B && echo C
 echo "Test 10: echo A && echo B || echo C"
 echo A && echo B || echo C
 
-echo "Test 11: la || echo A || echo B || echo C" //la is command fail
-la || echo A || echo B || echo C
+echo "Other cases besides echo:"
 
-echo "Test 12: la && echo A || echo B && echo C; echo D"
-la && echo A || echo B && echo C; echo D
+echo "Test 11: echo \"||\" && echo \"&&\" && echo \";\""
+echo "||" && echo "&&" && echo ";"
 
-echo "Test 13: just accept that my code works man"
+echo "Test 12: touch file.txt; ls -a; rm file.txt && ls -a"
+touch file.txt; ls -a; rm file.txt && ls -a
 
-
-
-
-
-echo "i cri"
+echo "MAY BE MORE"
