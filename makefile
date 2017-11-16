@@ -6,7 +6,7 @@ SOURCEDIR = src
 BUILDDIR = bin
 
 SOURCES = $(wildcard src/*.cpp)
-OBJECTS = $(SOURCES: .cpp=.o)
+OBJECTS = $(SOURCES:.cpp=.o)
 
 all:	
 	mkdir -p $(BUILDDIR)
