@@ -6,12 +6,12 @@ SOURCEDIR = src
 BUILDDIR = bin
 
 SOURCES = $(wildcard src/*.cpp)
-OBJECTS = $(SOURCES:.cpp=.o)
+OBJECTS = $(SOURCES: .cpp=.o)
 
 all:	
 	mkdir -p $(BUILDDIR)
 	$(CC) $(OBJECTS) -o $(BUILDDIR)/$(EXECUTABLE)
 
 clean:
-	rm -f $(EXECUTABLE) $(OBJECTS)
+	rm -f *.o
 	rm -rf $(BUILDDIR)

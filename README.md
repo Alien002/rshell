@@ -63,4 +63,7 @@ No furthur bugs detected at the moment.
    
 5. exit.sh not working at the moment
 
+11/16/2017
+1. rshell compiles and runs via. g++ main.cpp Command.cpp, not running properly for some reason with make file.
+
 Last edited: 11/3/2017 - 9:49 PM
