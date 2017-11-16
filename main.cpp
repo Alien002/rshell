@@ -99,99 +99,104 @@ void buildExecutable(queue<string>& input, vector<Command> &v){  //builds execut
     }
 }
 
+void execute(vector<Command> executables){
+    vector<string> lhs;
+    vector<string> rhs;
+    
+    bool repeat = true;
+    
+    string flg1, flg2;
+    if(executables.size() > 1){
+        flg1 = executables.at(0).getFlag();
+        flg2 = executables.at(1).getFlag();
+    }
+    else{
+        execute(lhs);
+        repeat = false;
+    }
+    for(unsigned i = 0; i < executables.size(); ++i){
+        if(repeat && i != 0){
+            flg1 = flg2;
+            lhs = rhs;
+            rhs.clear();
+        }
+        else if(!repeat){
+            flg1 = flg2;
+        }
+        else{
+            lhs.clear();
+            rhs.clear();
+            
+        }
+        buildV(lhs, executables.at(i));
+        
+        if(executables.size() == 1){
+            execute(lhs);
+        }
+        
+        if(flg1 == "&&"){
+            
+            if(repeat){
+                if(execute(lhs)){
+                    
+                }
+                else{
+                    repeat = false;
+                    
+                }
+            }
+            else{
+                ++i;            //skips rhs if fail
+                
+            }
+        }
+        else if(flg1 == "||"){
+            if(repeat){
+                if(!execute(lhs)){
+                    
+                    
+                }
+                else{
+                    repeat = false;
+                    
+                }
+            }
+            else{
+                repeat = true;
+                
+            }
+            
+            
+        }
+        else if(flg1 == "; "){
+            if(repeat){
+                execute(lhs);
+            }
+        }
+        else{
+            if(repeat){
+                execute(lhs);
+                repeat = false;
+            }
+        }
+        
+    }
+    return;
+}
+
 
 int main(int argc, char** argv){
     intro();
     
     while (1){
-        vector<Command> executables;
         queue<string> input;
+        vector<Command> executables;
         
         inputCommands(input);
         
         buildExecutable(input, executables);
-        vector<string> lhs;
-        vector<string> rhs;
         
-        bool repeat = true;
-        
-        string flg1, flg2;
-        if(executables.size() > 1){
-            flg1 = executables.at(0).getFlag();
-            flg2 = executables.at(1).getFlag();
-        }
-        else{
-            execute(lhs);
-            repeat = false;
-        }
-        for(unsigned i = 0; i < executables.size(); ++i){
-            if(repeat && i != 0){
-                flg1 = flg2;
-                lhs = rhs;
-                rhs.clear();
-            }
-            else if(!repeat){
-                flg1 = flg2;
-            }
-            else{
-                lhs.clear();
-                rhs.clear();
-                
-            }
-            buildV(lhs, executables.at(i));
-            
-            if(executables.size() == 1){
-                execute(lhs);
-            }
-
-            if(flg1 == "&&"){
-
-                if(repeat){
-                    if(execute(lhs)){
-                        
-                    }
-                    else{
-                        repeat = false;
-                        
-                    }
-                }
-                else{
-                    ++i;            //skips rhs if fail
-                    
-                }
-            }
-            else if(flg1 == "||"){
-                if(repeat){
-                    if(!execute(lhs)){
-
-                        
-                    }
-                    else{
-                        repeat = false;
-                        
-                    }
-                }
-                else{
-                    repeat = true;
-                    
-                }
-
-                
-            }
-            else if(flg1 == "; "){
-                if(repeat){
-                    execute(lhs);
-                }
-            }
-            else{
-                if(repeat){
-                    execute(lhs);
-                    repeat = false;
-                }
-            }
-
-        }
-        
+        execute(executables);
     }
     return 0;
 }
