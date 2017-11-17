@@ -1,9 +1,9 @@
 //
 //  main.cpp
-//  rshell - assignment 2
+//  rshell - assignment 3
 //
 //  Created by Alic Lien & Daniel Li on 10/28/17.
-//  Updated 11/16/2017 -
+//  Updated 11/17/2017 -
 //  Compiles via g++ main.cpp Command.cpp
 //
 
@@ -156,6 +156,7 @@ void buildExecutable(queue<string>& input, vector<Command> &v){
     
     
     while(i != sz){
+        //cout <<input.front() <<endl;
         //check input.front if its a test case.
         if(input.front() == "[" || input.front() == "test"){
 
@@ -167,7 +168,6 @@ void buildExecutable(queue<string>& input, vector<Command> &v){
             temp.push(input.front());
             input.pop();
         }
-        
         
         
         //connectors check
@@ -199,89 +199,84 @@ void buildExecutable(queue<string>& input, vector<Command> &v){
 }
 
 //Executes functions stored in Command object
-void execute(vector<Command> executables){
+bool execute(vector<Command> executables){          // change to bool function
     vector<string> lhs;
-    vector<string> rhs;
     
     bool repeat = true;
-    
-    string flg1, flg2;
-    if(executables.size() > 1){
-        flg1 = executables.at(0).getFlag();
-        flg2 = executables.at(1).getFlag();
-    }
-    else{
-        execute(lhs);
-        repeat = false;
-    }
-    for(unsigned i = 0; i < executables.size(); ++i){
-        if(repeat && i != 0){
-            flg1 = flg2;
-            lhs = rhs;
-            rhs.clear();
-        }
-        else if(!repeat){
-            flg1 = flg2;
+    //bool case1 = false; //will set to true if one case of || was true
+    string flg1;
+    if(executables.size() == 1) {
+        buildV(lhs, executables.at(0));         //single command.
+        
+        if(execute(lhs)){
+            return true;
         }
         else{
-            lhs.clear();
-            rhs.clear();
-            
+            return false;
         }
+        //repeat = false;
+    }
+    
+    
+    for(unsigned i = 0; i < executables.size(); ++i){
+        //cout <<"for loop \n";
+        if(i == 0){
+            buildV(lhs, executables.at(0));
+            //
+            /*
+            if(lhs.at(0) == "("){
+                lhs.erase(lhs.begin());
+                while(lhs.at(lhs.size()-1 != ")")){
+                    repeat = execute(lhs);
+                    ++i;
+                    lhs.clear();
+                    buildV(lhs, executables.at(i));
+                    if(lhs.at(lhs.size()-1 == ")"){
+                        lhs.erase(lhs.end());
+                        repeat = execute(lhs);
+                        break;
+                    }
+                }
+            }//
+            else{
+             */
+                repeat = execute(lhs);
+            //}
+                //cout <<"yes\n";
+            ++i;
+        }
+        
+        if(i > 0){
+            flg1 = executables.at(i - 1).getFlag();
+        }
+        else{
+            flg1 = executables.at(0).getFlag();
+        }
+        
+        lhs.clear();
         buildV(lhs, executables.at(i));
         
-        if(executables.size() == 1){
+        if(flg1 == "&&" && repeat){
+            //cout <<"flg = &&\n";
             execute(lhs);
         }
         
-        if(flg1 == "&&"){
-            
-            if(repeat){
-                if(execute(lhs)){
-                    
-                }
-                else{
-                    repeat = false;
-                    
-                }
-            }
-            else{
-                ++i;            //skips rhs if fail
-                
-            }
-        }
-        else if(flg1 == "||"){
-            if(repeat){
-                if(!execute(lhs)){
-                    
-                    
-                }
-                else{
-                    repeat = false;
-                    
-                }
-            }
-            else{
-                repeat = true;
-                
-            }
-            
-            
-        }
-        else if(flg1 == "; "){
-            if(repeat){
-                execute(lhs);
-            }
-        }
-        else{
-            if(repeat){
-                execute(lhs);
-                repeat = false;
-            }
+        else if(flg1 == "||" && !repeat){
+            //cout <<"flg = ||\n";
+            execute(lhs);
         }
         
+        else if(flg1 == "; "){
+            //cout <<"flg = ;\n";
+            execute(lhs);
+        }
     }
-    return;
+    
+    return true;
+}
+
+bool boundExe(vector<string> lhs){
+    
 }
 
 
