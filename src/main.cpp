@@ -199,14 +199,15 @@ void buildExecutable(queue<string>& input, vector<Command> &v){
 }
 
 //Executes functions stored in Command object
-bool execute(vector<Command> executables){          // change to bool function
+bool executeA(vector<Command> executables){          // change to bool function
     vector<string> lhs;
     
     bool repeat = true;
-    //bool case1 = false; //will set to true if one case of || was true
+    bool case1 = false; //will set to true if one case of || was true
     string flg1;
+    //single command.
     if(executables.size() == 1) {
-        buildV(lhs, executables.at(0));         //single command.
+        buildV(lhs, executables.at(0));
         
         if(execute(lhs)){
             return true;
@@ -223,27 +224,38 @@ bool execute(vector<Command> executables){          // change to bool function
         if(i == 0){
             buildV(lhs, executables.at(0));
             //
-            /*
-            if(lhs.at(0) == "("){
-                lhs.erase(lhs.begin());
-                while(lhs.at(lhs.size()-1 != ")")){
-                    repeat = execute(lhs);
+            //cout <<"if i = 0" <<endl;
+            if(lhs.at(0).at(0) == '('){
+                //cout <<lhs.at(0) <<endl;
+                lhs.at(0).erase(lhs.at(0).begin());
+                //cout <<lhs.at(0) <<endl;
+                repeat = execute(lhs);
+                
+                while(lhs.at(lhs.size()-1).at(lhs.at(lhs.size()-1).size()-1) != ')'){
+                    //cout <<"while loop" <<endl;
                     ++i;
                     lhs.clear();
                     buildV(lhs, executables.at(i));
-                    if(lhs.at(lhs.size()-1 == ")"){
-                        lhs.erase(lhs.end());
-                        repeat = execute(lhs);
+                    
+                    if(lhs.at(lhs.size()-1).at(lhs.at(lhs.size()-1).size()-1) == ')'){
+                        //cout <<"if" <<endl;
+                        lhs.at(lhs.size()-1).erase(lhs.at(lhs.size()-1).size()-1);
+                        if(repeat){
+                            repeat = execute(lhs);
+                        }
                         break;
                     }
+                    
+                    repeat = execute(lhs);
+                    
                 }
+                
             }//
             else{
-             */
                 repeat = execute(lhs);
-            //}
+            }
                 //cout <<"yes\n";
-            ++i;
+            //++i;
         }
         
         if(i > 0){
@@ -255,30 +267,67 @@ bool execute(vector<Command> executables){          // change to bool function
         
         lhs.clear();
         buildV(lhs, executables.at(i));
+        //test area
+        cout <<"Reached test area\n";
+        cout <<i <<"------" <<executables.size() <<endl;
+        cout <<endl;
+        /*
+        if(lhs.at(i).at(0) == '('){
+            cout <<lhs.at(i) <<endl;
+            lhs.at(i).erase(lhs.at(i).begin());
+            cout <<lhs.at(i) <<endl;
+            repeat = execute(lhs);
+            
+            while(lhs.at(lhs.size()-1).at(lhs.at(lhs.size()-1).size()-1) != ')'){
+                //cout <<"while loop" <<endl;
+                if(i < executables.size()-1){     //??
+                    ++i;
+                }
+                lhs.clear();
+                buildV(lhs, executables.at(i));
+                
+                if(lhs.at(lhs.size()-1).at(lhs.at(lhs.size()-1).size()-1) == ')'){
+                    //cout <<"if" <<endl;
+                    lhs.at(lhs.size()-1).erase(lhs.at(lhs.size()-1).size()-1);
+                    if(repeat){
+                        repeat = execute(lhs);
+                    }
+                    break;
+                }
+                
+                repeat = execute(lhs);
+                
+            }
+            
+        }//
+        */
         
+        
+        // test area
+
         if(flg1 == "&&" && repeat){
             //cout <<"flg = &&\n";
-            execute(lhs);
+            case1 = execute(lhs);
         }
         
         else if(flg1 == "||" && !repeat){
             //cout <<"flg = ||\n";
-            execute(lhs);
+            case1 = execute(lhs);
         }
         
         else if(flg1 == "; "){
             //cout <<"flg = ;\n";
-            execute(lhs);
+            case1 = execute(lhs);
         }
     }
     
-    return true;
+    return case1;
 }
-
+/*
 bool boundExe(vector<string> lhs){
     
 }
-
+*/
 
 
 int main(int argc, char** argv){
@@ -292,7 +341,7 @@ int main(int argc, char** argv){
         
         buildExecutable(input, executables);
         
-        execute(executables);
+        executeA(executables);
     }
     return 0;
 }
