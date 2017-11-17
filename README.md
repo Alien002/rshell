@@ -13,7 +13,7 @@ The "-q" command is used to exit the program.
 
 
 
-=====================================Debug Report====================================
+======================================Debug Report=====================================
 11/3/2017 - 1:31 AM - Alic
 1. for cases where F && F; T, error message will be printed out twice for the second F.
 2. there is a bug with git commit -m, the error message does not work with white space inside the 
