@@ -3,8 +3,8 @@
 //  rshell - assignment 3
 //
 //  Created by Alic Lien & Daniel Li on 10/28/17.
-//  Updated 11/17/2017 -
-//  Compiles via g++ main.cpp Command.cpp
+//  Updated 11/17/2017
+//
 //
 
 #include <iostream>
@@ -145,6 +145,7 @@ void isTest(queue<string>& temp, queue<string>& test, queue<string>& input){
 }
 
 
+
 //builds executable into a Command object, and
 void buildExecutable(queue<string>& input, vector<Command> &v){
     //cout <<"build executable\n";
@@ -198,12 +199,84 @@ void buildExecutable(queue<string>& input, vector<Command> &v){
     }
 }
 
+//////EXECUTE PARENTHESES
+bool executeP(vector<Command> executables, unsigned &num) {          // change to bool function
+    vector<string> lhs;
+    bool repeat = true;
+    bool case1 = false;
+    bool case2 = false;
+    bool case3 = false;
+    string flg1;
+    //single command.
+    if(executables.size() == 1) {
+        buildV(lhs, executables.at(0));
+        
+        if(execute(lhs)){
+            return true;
+        }
+        else{
+            return false;
+        }
+        //repeat = false;
+    }
+    
+    
+    for(; num < executables.size(); ++num){
+        //cout <<"for loop \n";
+        repeat = execute(lhs);
+        
+        //while(lhs.at(lhs.size()-1).at(lhs.at(lhs.size()-1).size()-1) != ')'){
+        
+        bool deleted = false;
+        while(!deleted) {
+            if(lhs.at(lhs.size()-1).at(lhs.at(lhs.size()-1).size()-1) == ')') {
+                lhs.at(lhs.size()-1).erase(lhs.at(lhs.size()-1).size()-1);
+                deleted = true;
+            }
+            
+            
+            lhs.clear();
+            buildV(lhs, executables.at(num));
+            
+            if(num > 0){
+                flg1 = executables.at(num - 1).getFlag();
+            }
+            else{
+                flg1 = executables.at(0).getFlag();
+            }
+            if(flg1 == "&&" && repeat){
+                //cout <<"flg = &&\n";
+                case1 = execute(lhs);
+            }
+            
+            else if(flg1 == "||" && !repeat){
+                //cout <<"flg = ||\n";
+                case2 = execute(lhs);
+            }
+            
+            else if(flg1 == "; "){
+                //cout <<"flg = ;\n";
+                case3 = execute(lhs);
+            }
+        }
+    }
+    
+    if(case1 || case2 || case3){
+        return true;
+    }					
+    return false;
+}
+
 //Executes functions stored in Command object
 bool executeA(vector<Command> executables){          // change to bool function
     vector<string> lhs;
     
     bool repeat = true;
-    bool case1 = false; //will set to true if one case of || was true
+    //bool case1 = false; //will set to true if one case of || was true
+    bool inPar = false;
+    bool inParRep = false;
+    int a = 0;
+    
     string flg1;
     //single command.
     if(executables.size() == 1) {
@@ -220,44 +293,7 @@ bool executeA(vector<Command> executables){          // change to bool function
     
     
     for(unsigned i = 0; i < executables.size(); ++i){
-        //cout <<"for loop \n";
-        if(i == 0){
-            buildV(lhs, executables.at(0));
-            //
-            //cout <<"if i = 0" <<endl;
-            if(lhs.at(0).at(0) == '('){
-                //cout <<lhs.at(0) <<endl;
-                lhs.at(0).erase(lhs.at(0).begin());
-                //cout <<lhs.at(0) <<endl;
-                repeat = execute(lhs);
-                
-                while(lhs.at(lhs.size()-1).at(lhs.at(lhs.size()-1).size()-1) != ')'){
-                    //cout <<"while loop" <<endl;
-                    ++i;
-                    lhs.clear();
-                    buildV(lhs, executables.at(i));
-                    
-                    if(lhs.at(lhs.size()-1).at(lhs.at(lhs.size()-1).size()-1) == ')'){
-                        //cout <<"if" <<endl;
-                        lhs.at(lhs.size()-1).erase(lhs.at(lhs.size()-1).size()-1);
-                        if(repeat){
-                            repeat = execute(lhs);
-                        }
-                        break;
-                    }
-                    
-                    repeat = execute(lhs);
-                    
-                }
-                
-            }//
-            else{
-                repeat = execute(lhs);
-            }
-                //cout <<"yes\n";
-            //++i;
-        }
-        
+
         if(i > 0){
             flg1 = executables.at(i - 1).getFlag();
         }
@@ -267,61 +303,65 @@ bool executeA(vector<Command> executables){          // change to bool function
         
         lhs.clear();
         buildV(lhs, executables.at(i));
-        //test area
-        cout <<"Reached test area\n";
-        cout <<i <<"------" <<executables.size() <<endl;
-        cout <<endl;
-        /*
-        if(lhs.at(i).at(0) == '('){
-            cout <<lhs.at(i) <<endl;
-            lhs.at(i).erase(lhs.at(i).begin());
-            cout <<lhs.at(i) <<endl;
-            repeat = execute(lhs);
-            
-            while(lhs.at(lhs.size()-1).at(lhs.at(lhs.size()-1).size()-1) != ')'){
-                //cout <<"while loop" <<endl;
-                if(i < executables.size()-1){     //??
-                    ++i;
-                }
-                lhs.clear();
-                buildV(lhs, executables.at(i));
+        
+        if(lhs.at(0).at(0) == '('){
+            cout <<"open P\n";
+            lhs.at(0).erase(lhs.at(0).begin());
+            inPar = true;
                 
-                if(lhs.at(lhs.size()-1).at(lhs.at(lhs.size()-1).size()-1) == ')'){
-                    //cout <<"if" <<endl;
-                    lhs.at(lhs.size()-1).erase(lhs.at(lhs.size()-1).size()-1);
-                    if(repeat){
-                        repeat = execute(lhs);
-                    }
-                    break;
-                }
-                
-                repeat = execute(lhs);
-                
+            ++a;
+        }
+        else if(lhs.at(lhs.size()-1).at(lhs.at(lhs.size()-1).size()-1) == ')'){
+            cout <<"close P\n";
+            lhs.at(lhs.size()-1).erase(lhs.at(lhs.size()-1).size()-1);
+            if(a == 1){
+                //repeat = !inParRep;
+                a = 0;
             }
-            
-        }//
-        */
+        }
         
-        
-        // test area
+        if(i == 0){
+            repeat = execute(lhs);
+            continue;
+        }
 
         if(flg1 == "&&" && repeat){
-            //cout <<"flg = &&\n";
-            case1 = execute(lhs);
+            cout <<"flg = &&\n";
+            if(execute(lhs)){
+                if(inPar){
+                    inParRep = true;
+                }
+            }
+            else{
+                if(inPar){
+                    inParRep = false;
+                }
+            }
         }
         
         else if(flg1 == "||" && !repeat){
-            //cout <<"flg = ||\n";
-            case1 = execute(lhs);
+            cout <<"flg = ||\n";
+            if(execute(lhs)){
+                if(inPar){
+                    inParRep = true;
+                }
+            }
         }
         
         else if(flg1 == "; "){
             //cout <<"flg = ;\n";
-            case1 = execute(lhs);
+            execute(lhs);
+        }
+        
+        if(!inPar && a == 1){
+            cout <<"a = 1\n";
+            repeat = !inParRep;
+            cout << "in par rep: " <<repeat <<endl;
+            --a;
         }
     }
     
-    return case1;
+    return repeat;
 }
 /*
 bool boundExe(vector<string> lhs){
