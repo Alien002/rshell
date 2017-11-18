@@ -294,7 +294,7 @@ bool executeA(vector<Command> executables){          // change to bool function
     
     
     for(unsigned i = 0; i < executables.size(); ++i){
-
+        
         if(i > 0){
             flg1 = executables.at(i - 1).getFlag();
         }
@@ -302,10 +302,12 @@ bool executeA(vector<Command> executables){          // change to bool function
             flg1 = executables.at(0).getFlag();
         }
         
+        //cout <<flg1 <<endl;
         lhs.clear();
         buildV(lhs, executables.at(i));
         
-        if(lhs.at(0).at(0) == '(' && repeat){   //if open par, delete open "("
+        if(lhs.at(0).at(0) == '('){   //if open par, delete open "("
+            
             cout <<"open P\n";
             lhs.at(0).erase(lhs.at(0).begin()); //deletes it
             inPar = true;                       //flags in par as true
@@ -317,51 +319,73 @@ bool executeA(vector<Command> executables){          // change to bool function
             lhs.at(lhs.size()-1).erase(lhs.at(lhs.size()-1).size()-1);          //deletes close par
             close = true;                                                       //notifies after running that par has closed, line 360
         }
-        /*
-        if(i == 0 && inPar){
+        //do not touch//
+        if(i == 0){
             repeat = execute(lhs);
+            if(inPar){
+                inParRep = repeat;
+            }
             continue;
         }
-        */
+        
         //repeat = whats in the parentheses)
+        /*
         if(inPar && i != 0){
+            cout <<"inPar && i != 0\n";
+            repeat = !inParRep;
+            cout << repeat <<endl;
+        }
+        else if(!inPar){
+            //repeat = inParRep;
+        }
+        */
+        
+        if(inPar){
+            cout <<"inPar" << endl;
             repeat = inParRep;
         }
         
         
         if(flg1 == "&&" && repeat){
+            cout <<"flg = &&\n";
             if(inPar){
-                inParRep = execute(lhs);
+                if(execute(lhs)){
+                    inParRep = true;
+                }
+                else{
+                    inParRep = false;
+                }
             }
             else{
                 repeat = execute(lhs);
             }
         }
         else if(flg1 == "||" && !repeat){
-            //cout <<"flg = ||\n";
+            cout <<"flg = ||\n";
             
             if(inPar){
+                
                 inParRep = execute(lhs);
+                
             }
             else{
                 repeat = execute(lhs);
                 
             }
-            
             //repeat = execute(lhs);
         }
         else if(flg1 == "; " && repeat){
             //cout <<"flg = ;\n";
-            execute(lhs);
+            //execute(lhs);
             inParRep = true;
-            repeat = true;
+            repeat = execute(lhs);
         }
         
         if(close){                              //knows that par is close
             cout <<"close P\n";
-            inPar = false;                      //sets flag as false now
-            repeat = inParRep;                  //sets repeat as last ran value in par
-            close = false;                      //close = false now as we might reuse later
+            inPar = false;
+            repeat = inParRep;
+            close = false;
         }
         
         
