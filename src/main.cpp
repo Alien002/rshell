@@ -94,7 +94,7 @@ void isTest(queue<string>& temp, queue<string>& test, queue<string>& input){
         struct stat st;
         if(stat(test.front().c_str(), &st) == 0){       //if true move on
             cout <<"True" <<endl;
-            //temp.push("echo");
+            temp.push("true");
         }
         else{
             cout <<"False" <<endl;
@@ -110,7 +110,7 @@ void isTest(queue<string>& temp, queue<string>& test, queue<string>& input){
         
         if(S_ISREG(st.st_mode)){                    //if true move on
             cout <<"True" <<endl;
-            
+            temp.push("true");
         }
         else{
             cout <<"False" <<endl;
@@ -125,7 +125,7 @@ void isTest(queue<string>& temp, queue<string>& test, queue<string>& input){
         
         if(S_ISDIR(st.st_mode)){                    //if true move on
             cout <<"True" <<endl;
-            
+            temp.push("true");
         }
         else{
             cout <<"False" <<endl;                  //if false throw junk into temp queue to flag as failed for cmds
