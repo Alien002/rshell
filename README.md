@@ -15,9 +15,9 @@ The "-q" command is used to exit the program.
 
 =========================================Report======================================
 11/3/2017 - 1:31 AM - Alic
-1. for cases where F && F; T, error message will be printed out twice for the second F.
-2. there is a bug with git commit -m, the error message does not work with white space inside the 
-    quotations. Will only work if "message_is_typed_like_this".
+1. (RESOLVED)for cases where F && F; T, error message will be printed out twice for the second F.
+2. (RESOLVED/IMPLEMENTED) There is a bug with git commit -m, the error message does not work with white space inside the 
+    quotations. Will only work if "message_is_typed_like_this". 
 3. if #comment is entered by itself, program seg faults.
 
 
@@ -74,6 +74,7 @@ The "-q" command is used to exit the program.
 3. Test -flags and [-flag ] work in program.
 4. Errors with multiple parentheses, could not implement nested parentheses at this time.d
 5. Suggest converting vector of commands into a tree, will require code overhaul.
+6. "" do not work when # is typed within it, due to # implementation location, might need fix
 
 
 
