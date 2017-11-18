@@ -37,7 +37,7 @@ void intro(){
          <<"\"; \" - will always run next command.\n"
          <<"type -q as a shell command to quit rShell.\n"
          <<"-------------------------------------------\n";
-    cout <<"!!!!!Dev Mode!!!!!\n";          
+    //cout <<"!!!!!Dev Mode!!!!!\n";
     return;
 }
 
@@ -308,7 +308,7 @@ bool executeA(vector<Command> executables){          // change to bool function
         
         if(lhs.at(0).at(0) == '('){   //if open par, delete open "("
             
-            cout <<"open P\n";
+            //cout <<"open P\n";
             lhs.at(0).erase(lhs.at(0).begin()); //deletes it
             inPar = true;                       //flags in par as true
                 
@@ -341,13 +341,13 @@ bool executeA(vector<Command> executables){          // change to bool function
         */
         
         if(inPar){
-            cout <<"inPar" << endl;
+            //cout <<"inPar" << endl;
             repeat = inParRep;
         }
         
         
         if(flg1 == "&&" && repeat){
-            cout <<"flg = &&\n";
+            //cout <<"flg = &&\n";
             if(inPar){
                 if(execute(lhs)){
                     inParRep = true;
@@ -361,7 +361,7 @@ bool executeA(vector<Command> executables){          // change to bool function
             }
         }
         else if(flg1 == "||" && !repeat){
-            cout <<"flg = ||\n";
+           // cout <<"flg = ||\n";
             
             if(inPar){
                 
@@ -382,7 +382,7 @@ bool executeA(vector<Command> executables){          // change to bool function
         }
         
         if(close){                              //knows that par is close
-            cout <<"close P\n";
+            //cout <<"close P\n";
             inPar = false;
             repeat = inParRep;
             close = false;
