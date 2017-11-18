@@ -84,6 +84,9 @@ void isTest(queue<string>& temp, queue<string>& test, queue<string>& input){
         input.pop();
     }
     
+    
+    
+    
     //check flag, an
     if(test.front() == "-e"){
         test.pop();
@@ -163,11 +166,46 @@ void buildExecutable(queue<string>& input, vector<Command> &v){
 
             isTest(temp, test, input);
             
-            
         }
         else{   //normal commands
-            temp.push(input.front());
-            input.pop();
+            if(input.front().at(0) == '\"'){
+                //cout <<"is quote called" <<endl;
+                //input.front().erase(input.front().at(0));
+                string isQuote = string();
+                do{
+                   // cout <<"while" <<endl;
+                    //input.front().erase(input.front().back()-1);
+                    isQuote += input.front();
+                    
+                    if(input.front().back() == '\"'){
+                        break;
+                    }
+                        
+                    isQuote += " ";
+                    
+                    if(!input.empty()){
+                        input.pop();
+                    }
+                    
+                }while(isQuote.back() != '\"');
+                
+                
+                //isQuote += input.front();
+                
+                if(!input.empty()){
+                    input.pop();
+                }
+                
+                //cout <<isQuote <<endl;
+                isQuote.erase(isQuote.begin());
+                isQuote.erase(isQuote.size() - 1);
+                //cout <<isQuote <<endl;
+                temp.push(isQuote);
+            }
+            else{
+                temp.push(input.front());
+                input.pop();
+            }
         }
         
         
