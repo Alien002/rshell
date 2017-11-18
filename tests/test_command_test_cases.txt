@@ -1,0 +1,9 @@
+Test Command Cases:
+
+
+test -e bin/rshell
+test -d src
+[ -e src/main.cpp ]
+[ -f bin ]
+[ br ] || echo "none exists"
+test -d tests && echo exists; echo idk

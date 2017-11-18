@@ -1,0 +1,20 @@
+Parentheses Cases:
+ ***NOTE: OUR RSHELL ONLY WORKS IF PARENTHESES AS THE FIRST SET OF COMMANDS SUCH AS (...) && ETC***
+  
+  
+(echo A && echo B) || (echo C && echo D)
+(echo A && echo B) || echo C
+(echo A || echo B) || echo C
+(ech A || echo B) && echo C
+(la || ech b) || echo PRINT
+(echo A || echo B && echo C) || echo don't print
+(ech A && echo B && echo C && echo D || echo print) && echo print again
+
+ ***THE FOLLOWING DOES NOT WORK/SHOULD NOT WORK CORRECTLY WITH OUR CODE***
+
+echo A || (echo B && echo C)
+echo A && (echo B || echo C)
+echo A && (echo B || echo C) && echo PRINT
+echo A || (echo B || echo C && echo D) && echo PRINT || echo no print && ls -a
+echo "(echo B && echo C)" && (echo B2 && echo C2); echo print || echo printed
+  
