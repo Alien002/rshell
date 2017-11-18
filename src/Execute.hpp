@@ -26,7 +26,7 @@ bool execute(vector<string>& a){
     
     pid_t pid = fork();
     int status;
-    for(int i = 0; i < a.size(); ++i){
+    for(unsigned i = 0; i < a.size(); ++i){
         if(a.at(i) == "-q"){                        //program kill switch
             exit(1);
         }

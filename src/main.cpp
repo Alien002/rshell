@@ -50,7 +50,7 @@ void inputCommands(queue<string>& cmds){
 
     boost::split(v,input,boost::is_any_of(" ,; "));          //with current parse, a whitespace/empty v.at(i) is created
                                                                 //git commit -m needs underscores for  ""
-    for (int i = 0; i < v.size(); ++i){
+    for (unsigned i = 0; i < v.size(); ++i){
         
         if(v.at(i) == "#" || (v.at(i) != string() && v.at(i).at(0) == '#')){        //checks for comment #
             i = v.size();
