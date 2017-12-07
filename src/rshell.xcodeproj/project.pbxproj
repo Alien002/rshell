@@ -1,0 +1,78 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXFileReference section */
+		4033B8DD1FAC0E7B0019F53A /* Command.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Command.cpp; sourceTree = "<group>"; };
+		4033B8DE1FAC0E7B0019F53A /* Command.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Command.hpp; sourceTree = "<group>"; };
+		4033B8E01FAC22FD0019F53A /* Execute.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Execute.hpp; sourceTree = "<group>"; };
+		40FE0D281FAAB5920049FF23 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		404028FA1F9FCBC300A7E8C2 = {
+			isa = PBXGroup;
+			children = (
+				4033B8E01FAC22FD0019F53A /* Execute.hpp */,
+				4033B8DD1FAC0E7B0019F53A /* Command.cpp */,
+				4033B8DE1FAC0E7B0019F53A /* Command.hpp */,
+				40FE0D281FAAB5920049FF23 /* main.cpp */,
+			);
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXProject section */
+		404028FB1F9FCBC300A7E8C2 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0810;
+			};
+			buildConfigurationList = 404028FE1F9FCBC300A7E8C2 /* Build configuration list for PBXProject "rshell" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 404028FA1F9FCBC300A7E8C2;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+			);
+		};
+/* End PBXProject section */
+
+/* Begin XCBuildConfiguration section */
+		404028FF1F9FCBC400A7E8C2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		404029001F9FCBC400A7E8C2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		404028FE1F9FCBC300A7E8C2 /* Build configuration list for PBXProject "rshell" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				404028FF1F9FCBC400A7E8C2 /* Debug */,
+				404029001F9FCBC400A7E8C2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 404028FB1F9FCBC300A7E8C2 /* Project object */;
+}

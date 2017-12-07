@@ -35,7 +35,7 @@ class Command{
     
     const string getFlag();
     const string qFront();
-    
+    const string getFront();
     int qSize();
     bool qEmpty();
     

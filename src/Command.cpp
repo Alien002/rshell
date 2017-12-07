@@ -37,6 +37,15 @@ const string Command::qFront(){                                  //returns strin
     return temp;
 }
 
+const string Command::getFront(){                                  //returns string for >> or >;
+    if(cmds.empty()){
+        throw std::out_of_range("out of range");
+    }
+    return cmds.front();
+}
+    
+    
+    
 bool Command::qEmpty(){
     return cmds.empty();
 }

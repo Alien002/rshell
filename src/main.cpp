@@ -15,6 +15,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <fcntl.h>
 #include <sys/wait.h>
 #include <sys/types.h>
 #include <boost/algorithm/string.hpp>
@@ -42,12 +43,19 @@ void intro(){
 }
 
 //takes user input (getline), builds commands.
-void inputCommands(queue<string>& cmds){
+bool inputCommands(queue<string>& cmds){
     vector<string> v;
-    cout <<"rshell$ ";
+    cout <<"$ "; //rshell
     string input;
     getline(cin, input);
-
+    
+    if(input == string()){
+        return false;
+    }
+    
+    
+    bool isOutput = false;
+    
     boost::split(v,input,boost::is_any_of(" ,; "));          //with current parse, a whitespace/empty v.at(i) is created
                                                                 //git commit -m needs underscores for  ""
     for (unsigned i = 0; i < v.size(); ++i){
@@ -55,12 +63,16 @@ void inputCommands(queue<string>& cmds){
         if(v.at(i) == "#" || (v.at(i) != string() && v.at(i).at(0) == '#')){        //checks for comment #
             i = v.size();
         }
+        else if(v.at(i) == ">>" || v.at(i) ==">"){
+            isOutput = true;
+            cmds.push(v.at(i));
+        }
         else{
             cmds.push(v.at(i));
         }
     }
     cmds.push("-0");        //last cmd
-    return;
+    return isOutput;
 }
 
 //handles the test command cases, uses stat.
@@ -83,9 +95,6 @@ void isTest(queue<string>& temp, queue<string>& test, queue<string>& input){
     if(input.front() == "]"){
         input.pop();
     }
-    
-    
-    
     
     //check flag, an
     if(test.front() == "-e"){
@@ -438,6 +447,82 @@ bool boundExe(vector<string> lhs){
 }
 */
 
+/*
+bool isOutput(vector<Command> &v){
+    for(unsigned i = 0; i < v.size(); ++i){
+        cout <<v.at(i).getFront() <<endl;
+        if(v.at(i).getFront() == ">" || v.at(i).getFront() == ">>"){
+            
+            cout <<"Input detected" <<endl;
+            return true;
+        }
+    }
+    return false;
+}
+*/
+void fileOutput(queue<string> &input){
+    vector<string> exe;
+    vector<string> touch;
+    touch.push_back("touch");
+    
+    while(input.front() != ">>" && input.front() != ">" ){
+        //cout <<"while\n";
+        exe.push_back(input.front());
+        //cout<<input.front() <<endl;
+        input.pop();
+    }
+    input.pop(); //removes operator
+    
+    
+    struct stat st;
+    stat(input.front().c_str(), &st);
+    
+    if(S_ISREG(st.st_mode)){                    //if true move on
+    }
+    else{
+        touch.push_back(input.front());
+        execute(touch);
+    }
+    string filename = input.front();
+    
+    
+    pid_t pid = fork();
+    int status;
+    
+    if(pid < 0){
+        cout <<"***ERROR: forking child process failed\n";
+        exit(1);
+    }
+    else if(pid == 0){
+     
+        int file = open(filename.c_str(), O_APPEND | O_WRONLY);
+        if(file < 0){
+            return;
+        }
+        //cout <<"test" <<endl;
+        
+        if(dup2(file,1) < 0){
+            return;
+        }
+        
+        //cout << "test" <<endl;
+        execute(exe);
+        close(file);
+        return;
+    }
+    else{
+        while(wait(&status) != pid){
+            
+        }
+    }
+    
+    
+    
+    //cout <<"testing 1 2 3" <<endl;
+    return;
+}
+
+
 
 int main(int argc, char** argv){
     intro();
@@ -446,11 +531,16 @@ int main(int argc, char** argv){
         queue<string> input;
         vector<Command> executables;
         
-        inputCommands(input);
+        if(inputCommands(input)){       //returns true if output
+            //cout <<"henlo\n";
+            fileOutput(input);
+            //cout <<"henlo2\n";
+        }
+        else{
+            buildExecutable(input, executables);
         
-        buildExecutable(input, executables);
-        
-        executeA(executables);
+            executeA(executables);
+        }
     }
     return 0;
 }
