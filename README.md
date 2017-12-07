@@ -1,7 +1,7 @@
 CS100 - Assignment 2
 Team: Alic Lien, Daniel Li
 Project: rShell C++ Program
-Last edited: 11/17/2017 - 10:26 AM
+Last edited: 12/7/2017 - 3:42 AM
 
 
 
@@ -76,5 +76,12 @@ The "-q" command is used to exit the program.
 5. Suggest converting vector of commands into a tree, will require code overhaul.
 6. "" do not work when # is typed within it, due to # implementation location, might need fix
 
-
-
+12/7/2017 - 3:42 AM - Alic
+1. For some reason, dup2(test,1) creates an out of range error, without forking used, it quits the program, so I used forking to allow the program to continue.
+    - in rshell, after typing say echo a > a.txt, blank lines continuously show up while pressing enter, disappears after typing ; followed by enter.
+    - after typing enter the out of range error shows up in shell.
+    - in a.txt, the output that shows up would be:
+        a
+        $ $ $ $ $ $
+    - the dollar signs show up consecutively with the amount of enters pressed while in loop.
+Currently not sure what is causing the out of range error, nor how to fix it, tried the dup2 process on a test.cpp file, seems to work without problem.
