@@ -460,9 +460,11 @@ bool isOutput(vector<Command> &v){
     return false;
 }
 */
-void fileOutput(queue<string> &input){
+int fileOutput(queue<string> &input){
     vector<string> exe;
     vector<string> touch;
+    vector<string> ext;
+    ext.push_back("true");
     touch.push_back("touch");
     
     while(input.front() != ">>" && input.front() != ">" ){
@@ -472,7 +474,6 @@ void fileOutput(queue<string> &input){
         input.pop();
     }
     input.pop(); //removes operator
-    
     
     struct stat st;
     stat(input.front().c_str(), &st);
@@ -488,6 +489,11 @@ void fileOutput(queue<string> &input){
     
     pid_t pid = fork();
     int status;
+    int file;
+    int defout = dup(1);
+    
+    file = open(((char*)filename.c_str()), O_APPEND | O_WRONLY);
+    dup2(file,1);
     
     if(pid < 0){
         cout <<"***ERROR: forking child process failed\n";
@@ -495,31 +501,26 @@ void fileOutput(queue<string> &input){
     }
     else if(pid == 0){
      
-        int file = open(filename.c_str(), O_APPEND | O_WRONLY);
-        if(file < 0){
-            return;
-        }
-        //cout <<"test" <<endl;
-        
-        if(dup2(file,1) < 0){
-            return;
-        }
-        
-        //cout << "test" <<endl;
-        execute(exe);
+    
         close(file);
-        return;
+        close(defout);
+        execute(exe);
+        
+        exit(0);
+    
     }
     else{
         while(wait(&status) != pid){
             
         }
     }
-    
-    
+
+    dup2(defout,1);
+    close(file);
+    close(defout);
     
     //cout <<"testing 1 2 3" <<endl;
-    return;
+    return 0;
 }
 
 
@@ -532,9 +533,9 @@ int main(int argc, char** argv){
         vector<Command> executables;
         
         if(inputCommands(input)){       //returns true if output
-            //cout <<"henlo\n";
+            
             fileOutput(input);
-            //cout <<"henlo2\n";
+
         }
         else{
             buildExecutable(input, executables);
