@@ -63,7 +63,7 @@ bool inputCommands(queue<string>& cmds){
         if(v.at(i) == "#" || (v.at(i) != string() && v.at(i).at(0) == '#')){        //checks for comment #
             i = v.size();
         }
-        else if(v.at(i) == ">>" || v.at(i) ==">"){
+        else if(v.at(i) == ">>" || v.at(i) ==">" || v.at(i) == "<"){
             isOutput = true;
             cmds.push(v.at(i));
         }
@@ -464,60 +464,73 @@ int fileOutput(queue<string> &input){
     vector<string> exe;
     vector<string> touch;
     vector<string> ext;
-    ext.push_back("true");
+    //ext.push_back("true");
     touch.push_back("touch");
     
-    while(input.front() != ">>" && input.front() != ">" ){
+    while(input.front() != ">>" && input.front() != ">" && input.front() != "<" ){
         //cout <<"while\n";
         exe.push_back(input.front());
         //cout<<input.front() <<endl;
         input.pop();
     }
-    input.pop(); //removes operator
     
-    struct stat st;
-    stat(input.front().c_str(), &st);
+    if(input.front() == ">" || input.front() == ">>"){  //file out >> or >
     
-    if(S_ISREG(st.st_mode)){                    //if true move on
-    }
-    else{
-        touch.push_back(input.front());
-        execute(touch);
-    }
-    string filename = input.front();
+        input.pop(); //removes operator
+    
+        struct stat st;
+        stat(input.front().c_str(), &st);
+    
+        if(S_ISREG(st.st_mode)){                    //if true move on
+        }
+        else{
+            touch.push_back(input.front());
+            execute(touch);
+        }
+        string filename = input.front();
     
     
-    pid_t pid = fork();
-    int status;
-    int file;
-    int defout = dup(1);
+        pid_t pid = fork();
+        int status;
+        int file;
+        int defout = dup(1);
     
-    file = open(((char*)filename.c_str()), O_APPEND | O_WRONLY);
-    dup2(file,1);
+        file = open(((char*)filename.c_str()), O_APPEND | O_WRONLY);
+        dup2(file,1);
     
-    if(pid < 0){
-        cout <<"***ERROR: forking child process failed\n";
-        exit(1);
-    }
-    else if(pid == 0){
+        if(pid < 0){
+            cout <<"***ERROR: forking child process failed\n";
+            exit(1);
+        }
+        else if(pid == 0){
      
     
+            close(file);
+            close(defout);
+            execute(exe);
+        
+            exit(0);
+    
+        }
+        else{
+            while(wait(&status) != pid){
+            
+            }
+        }
+
+        dup2(defout,1);
         close(file);
         close(defout);
-        execute(exe);
+    }
+    else if(input.front() == "<"){              //file in < cat.
+        input.pop();
         
-        exit(0);
+        exe.push_back(input.front());   //filename
+        execute(exe);    //execute
+        cout <<endl;
+    }
     
-    }
-    else{
-        while(wait(&status) != pid){
-            
-        }
-    }
-
-    dup2(defout,1);
-    close(file);
-    close(defout);
+    
     
     //cout <<"testing 1 2 3" <<endl;
     return 0;
