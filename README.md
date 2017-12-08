@@ -85,3 +85,8 @@ The "-q" command is used to exit the program.
         $ $ $ $ $ $
     - the dollar signs show up consecutively with the amount of enters pressed while in loop.
 Currently not sure what is causing the out of range error, nor how to fix it, tried the dup2 process on a test.cpp file, seems to work without problem.
+
+12/7/2017 - 9:03 PM - Alic
+1. Implemented cat < filename
+2. Fixed the dup out of range error
+3. < and >/>> work for single cases
