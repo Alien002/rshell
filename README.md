@@ -1,7 +1,7 @@
-CS100 - Assignment 2
-Team: Alic Lien, Daniel Li
-Project: rShell C++ Program
-Last edited: 12/8/2017 - 8:08 PM
+CS100 - Assignment 2 <br />
+Team: Alic Lien, Daniel Li <br />
+Project: rShell C++ Program <br />
+Last edited: 12/8/2017 - 8:08 PM <br />
 
 
 
