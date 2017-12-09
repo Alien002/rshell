@@ -1,0 +1,9 @@
+//input output cases
+ls -l >> ls.txt
+echo hello world > hello.txt
+cat < ls.txt
+cat < src/main.cpp
+
+
+//piping cases
+cat < existingInputFile | tr A-Z a-z | tee newOutputFile1 | tr a-z A-Z > newOutputFile2
