@@ -25,12 +25,12 @@ rShell allows:
 
 ## External Libraries
 
-Boost library provided by [Boost C++ Libraries](http://www.boost.org/)
+Boost library provided by [Boost C++ Libraries](http://www.boost.org/).
 
 
 ## Report
 
-```A collection of updates reports from the coding process```
+```A collection of updates reports from the coding process.```
 
 11/3/2017 - 1:31 AM - Alic
 1. (RESOLVED)for cases where F && F; T, error message will be printed out twice for the second F.
