@@ -7,10 +7,7 @@ Last edited: 12/8/2017 - 8:08 PM
 
 ## Summary
 
-    rShell C++ program that allows us to link multiple shell commands, and run it. The program uses
-three operators: "; " which runs all code. "||" runs if lhs fails, rhs runs and vice versa. "&&" runs
-if lhs runs, rhs runs, vice versa. As of testing so far, we can technically run more than 3 executables.
-The "-q" command is used to exit the program.
+rShell C++ program that allows us to link multiple shell commands, and run it. The program uses three operators: "; " which runs all code. "||" runs if lhs fails, rhs runs and vice versa. "&&" runs if lhs runs, rhs runs, vice versa. As of testing so far, we can technically run more than 3 executables. The "-q" command is used to exit the program.
 
 ## Usage
 
