@@ -526,7 +526,7 @@ int fileOutput(queue<string> &input){
         input.pop();
         
         exe.push_back(input.front());   //filename
-        execute(exe);    //execute
+        execute(exe);    //execute cat < filename or cat filename
         cout <<endl;
     }
     
@@ -539,7 +539,7 @@ int fileOutput(queue<string> &input){
 
 
 int main(int argc, char** argv){
-    intro();
+    //intro();
     
     while (1){
         queue<string> input;
