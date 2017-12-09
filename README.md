@@ -26,6 +26,8 @@ rShell allows:
 
 ## Report
 
+```A collection of updates reports from the coding process```
+
 11/3/2017 - 1:31 AM - Alic
 1. (RESOLVED)for cases where F && F; T, error message will be printed out twice for the second F.
 2. (RESOLVED/IMPLEMENTED) There is a bug with git commit -m, the error message does not work with white space inside the 
