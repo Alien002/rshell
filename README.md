@@ -25,7 +25,7 @@ rShell allows:
 
 ## External Libraries
 
-Boost library provided by [a link](http://www.boost.org/)
+Boost library provided by [Boost C++ Libraries](http://www.boost.org/)
 
 
 ## Report
