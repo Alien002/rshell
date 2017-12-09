@@ -5,15 +5,27 @@ Last edited: 12/7/2017 - 3:42 AM
 
 
 
-=======================================Summary=======================================
+##Summary
     rShell C++ program that allows us to link multiple shell commands, and run it. The program uses
 three operators: "; " which runs all code. "||" runs if lhs fails, rhs runs and vice versa. "&&" runs
 if lhs runs, rhs runs, vice versa. As of testing so far, we can technically run more than 3 executables.
 The "-q" command is used to exit the program.
 
+##Usage
+rShell allows:
+1. Chaining commands via '''&&''', '''||''', ''';'''.
+2. Commenting in rshell is allowed via '''#'''.
+3. Users can check if a file exists via '''test -flag <path>''' or '''[ -flag <path> ]'''
+    flags:
+    '''-e'''	checks if the file/directory exists.
+    '''-f'''	checks if the file/directory exists and is a regular file.
+    '''-d'''	checks if the file/directory exists and is a directory.
+4. File input/output is available for single cases.
+    '''cat < <path>''' allows the shell to display all the text within the file
+    '''<commands> > <path>''' and '''<commands> >> <path>''' prints anything that would display for the command into the specified file (if file does not exist, one is created).
 
 
-=========================================Report======================================
+##Report
 11/3/2017 - 1:31 AM - Alic
 1. (RESOLVED)for cases where F && F; T, error message will be printed out twice for the second F.
 2. (RESOLVED/IMPLEMENTED) There is a bug with git commit -m, the error message does not work with white space inside the 
