@@ -23,6 +23,10 @@ rShell allows:
     ```cat < <path>``` allows the shell to display all the text within the file
     ```<commands> > <path>``` and ```<commands> >> <path>``` prints anything that would display for the command into the specified file (if file does not exist, one is created).
 
+## External Libraries
+
+Boost library provided by [a link](http://www.boost.org/)
+
 
 ## Report
 
